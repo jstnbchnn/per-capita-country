@@ -13,14 +13,14 @@ type populationDataType = {
   population: number
 } | undefined
 
-export type countryData = {
+export type CountryData = {
   name: string,
   gold: number,
   silver: number,
   bronze: number,
   total: number,
-  perCapita: string | undefined,
-  population: string | undefined,
+  perCapita: number | string | undefined,
+  population: number | undefined,
 }
 
 export default async function handler(
@@ -33,7 +33,7 @@ export default async function handler(
   const html = await response.text()
   const $ = cheerio.load(html);
   // const table = $('tbody').text()
-  const scrapedData: countryData[]  = [];
+  const scrapedData: CountryData[]  = [];
   $('#medal-standing #medal-standing-table > tbody tr').each((index, element) => {
     const tds = $(element).find('td');
     const name = $(tds[1]).data('text') as string
@@ -59,9 +59,9 @@ export default async function handler(
     scrapedData.push(data);
   })
 
-  const returnData = scrapedData.sort((a, b) => {
+  const returnData: CountryData[]  = scrapedData.sort((a, b) => {
     return b.perCapita - a.perCapita;
   })
 
-  res.status(200).json({ data: scrapedData })
+  res.status(200).json({ data: returnData })
 }

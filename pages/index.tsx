@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { countryData } from './api/getCountryData'
+import { CountryData } from './api/getCountryData'
 
 export default function Home() {
-  const [countryData, setCountryData] = useState<countryData[]>([])
+  const [countryData, setCountryData] = useState<CountryData[]>([])
 
   useEffect(() => {
       getTheData()
